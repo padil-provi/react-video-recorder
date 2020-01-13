@@ -38,12 +38,6 @@ const Instructions = styled.div`
   margin-bottom: 20px;
 `
 
-const InstuctionsHighlight = styled.div`
-  font-weight: 700;
-  color: #dc6547;
-  padding: 0 5px;
-`
-
 Button.defaultProps = {
   color: 'black',
   backgroundColor: 'white'
@@ -52,9 +46,7 @@ Button.defaultProps = {
 export default props => (
   <RecWrapper>
     <Instructions>
-      <div>PRESS </div>
-      <InstuctionsHighlight> REC </InstuctionsHighlight>
-      WHEN READY
+      {props.textPressToRec || 'PRESS REC WHEN READY'}
     </Instructions>
 
     <ButtonBorder>

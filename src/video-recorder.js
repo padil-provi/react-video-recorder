@@ -692,9 +692,9 @@ export default class VideoRecorder extends Component {
       timeLimit,
       showReplayControls,
       renderActions,
-      useVideoInput
+      useVideoInput,
+      options
     } = this.props
-
     return (
       <Wrapper>
         {this.renderCameraView()}
@@ -713,6 +713,7 @@ export default class VideoRecorder extends Component {
           timeLimit,
           showReplayControls,
           useVideoInput,
+          options,
 
           onTurnOnCamera: this.turnOnCamera,
           onTurnOffCamera: this.turnOffCamera,

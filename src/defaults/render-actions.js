@@ -19,31 +19,33 @@ const ActionsWrapper = styled.div`
   padding-bottom: 80px;
 `
 
-const Actions = ({
-  isVideoInputSupported,
-  isInlineRecordingSupported,
-  thereWasAnError,
-  isRecording,
-  isCameraOn,
-  streamIsReady,
-  isConnecting,
-  isRunningCountdown,
-  isReplayingVideo,
-  countdownTime,
-  timeLimit,
-  showReplayControls,
-  useVideoInput,
+const Actions = props => {
+  const {
+    isVideoInputSupported,
+    isInlineRecordingSupported,
+    thereWasAnError,
+    isRecording,
+    isCameraOn,
+    streamIsReady,
+    isConnecting,
+    isRunningCountdown,
+    isReplayingVideo,
+    countdownTime,
+    timeLimit,
+    showReplayControls,
+    useVideoInput,
+    options,
 
-  onTurnOnCamera,
-  onTurnOffCamera,
-  onOpenVideoInput,
-  onStartRecording,
-  onStopRecording,
-  onPauseRecording,
-  onResumeRecording,
-  onStopReplaying,
-  onConfirm
-}) => {
+    onTurnOnCamera,
+    onTurnOffCamera,
+    onOpenVideoInput,
+    onStartRecording,
+    onStopRecording,
+    onPauseRecording,
+    onResumeRecording,
+    onStopReplaying,
+    onConfirm
+  } = props
   const renderContent = () => {
     const shouldUseVideoInput =
       !isInlineRecordingSupported && isVideoInputSupported
@@ -60,7 +62,7 @@ const Actions = ({
     if (isReplayingVideo) {
       return (
         <Button onClick={onStopReplaying} data-qa='start-replaying'>
-          Use another video
+          {(options && options.startReplaying) || 'Use another video'}
         </Button>
       )
     }
@@ -71,25 +73,29 @@ const Actions = ({
 
     if (isCameraOn && streamIsReady) {
       return (
-        <RecordButton onClick={onStartRecording} data-qa='start-recording' />
+        <RecordButton
+          textPressToRec={options && options.textPressToRec}
+          onClick={onStartRecording}
+          data-qa='start-recording'
+        />
       )
     }
 
     if (useVideoInput) {
       return (
         <Button onClick={onOpenVideoInput} data-qa='open-input'>
-          Upload a video
+          {(options && options.uploadVideo) || 'Upload a video'}
         </Button>
       )
     }
 
     return shouldUseVideoInput ? (
       <Button onClick={onOpenVideoInput} data-qa='open-input'>
-        Record a video
+        {(options && options.recordVideo) || 'Record a video'}
       </Button>
     ) : (
       <Button onClick={onTurnOnCamera} data-qa='turn-on-camera'>
-        Turn my camera ON
+        {(options && options.turnOnCamera) || 'Turn my camera ON'}
       </Button>
     )
   }
@@ -117,6 +123,7 @@ Actions.propTypes = {
   showReplayControls: PropTypes.bool,
   isReplayingVideo: PropTypes.bool,
   useVideoInput: PropTypes.bool,
+  options: PropTypes.objectOf(PropTypes.string),
 
   onTurnOnCamera: PropTypes.func,
   onTurnOffCamera: PropTypes.func,
